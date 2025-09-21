@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crow-AI - Coming Soon | Community Forum with AI</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Crow-AI: A revolutionary community forum with integrated AI chat capabilities. Coming soon to crow-ai.net - Experience the future of online communities with retro terminal aesthetics.">
+    <meta name="keywords" content="Crow-AI, community forum, AI chat, retro terminal, online community, artificial intelligence, discussion board">
+    <meta name="author" content="Crow-AI Team">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://crow-ai.net/">
+    <meta property="og:title" content="Crow-AI - Coming Soon | Community Forum with AI">
+    <meta property="og:description" content="Experience the future of online communities with Crow-AI - A revolutionary forum with integrated AI chat and retro terminal aesthetics.">
+    <meta property="og:site_name" content="Crow-AI">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://crow-ai.net/">
+    <meta property="twitter:title" content="Crow-AI - Coming Soon | Community Forum with AI">
+    <meta property="twitter:description" content="Experience the future of online communities with Crow-AI - A revolutionary forum with integrated AI chat and retro terminal aesthetics.">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FF8C00'><path d='M2 3h20v18H2V3zm2 2v14h16V5H4zm2 2h12v2H6V7zm0 4h12v2H6v-2zm0 4h8v2H6v-2z'/></svg>">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323:wght@400&display=swap" rel="stylesheet">
+
+    <style>
+        /* CSS Variables matching Crow-AI theme */
+        :root {
+            --primary: #FF8C00;
+            --secondary: #1A1A1A;
+            --accent: #FFB366;
+            --text: #FFA500;
+            --glow: #FF4500;
+            --scanline-opacity: 0.25;
+            --crt-opacity: 0.1;
+            --flicker-enabled: 0;
+            --glow-enabled: 1;
+        }
+
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'VT323', monospace;
+            background: var(--secondary);
+            color: var(--text);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* CRT Container with effects */
+        .crt {
+            position: relative;
+            min-height: 100vh;
+            background: var(--secondary);
+            overflow: hidden;
+        }
+
+        /* CRT Scanlines */
+        .crt::before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(
+                to bottom,
+                rgba(18, 16, 16, 0) 50%,
+                rgba(0, 0, 0, var(--scanline-opacity)) 50%
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 100;
+            opacity: var(--scanline-opacity);
+        }
+
+        /* CRT Flicker effect */
+        .crt::after {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: rgba(18, 16, 16, var(--crt-opacity));
+            opacity: 0;
+            z-index: 99;
+            pointer-events: none;
+            animation: flicker 0.15s infinite linear;
+            animation-play-state: var(--flicker-enabled, paused);
+        }
+
+        /* CRT curvature and glow */
+        .crt {
+            border-radius: calc(var(--crt-opacity) * 20px);
+            box-shadow:
+                inset 0 0 calc(var(--crt-opacity) * 100px) rgba(0, 0, 0, 0.5),
+                0 0 calc(var(--crt-opacity) * 20px) var(--glow);
+        }
+
+        /* Animations */
+        @keyframes flicker {
+            0% { opacity: 0.27861; }
+            5% { opacity: 0.34769; }
+            10% { opacity: 0.23604; }
+            15% { opacity: 0.90626; }
+            20% { opacity: 0.18128; }
+            25% { opacity: 0.83891; }
+            30% { opacity: 0.65583; }
+            35% { opacity: 0.67807; }
+            40% { opacity: 0.26559; }
+            45% { opacity: 0.84693; }
+            50% { opacity: 0.96019; }
+            55% { opacity: 0.08594; }
+            60% { opacity: 0.20313; }
+            65% { opacity: 0.71988; }
+            70% { opacity: 0.53455; }
+            75% { opacity: 0.37288; }
+            80% { opacity: 0.71428; }
+            85% { opacity: 0.70419; }
+            90% { opacity: 0.7003; }
+            95% { opacity: 0.36108; }
+            100% { opacity: 0.24387; }
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        @keyframes typewriter {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Terminal text effects */
+        .terminal-text {
+            text-shadow: calc(var(--glow-enabled) * 0px 0px 10px var(--glow));
+        }
+
+        .text-glow {
+            text-shadow: 0 0 10px var(--glow);
+            color: var(--text);
+        }
+
+        .animate-blink {
+            animation: blink 1s step-end infinite;
+        }
+
+        .animate-pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        /* Layout styles */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        /* Logo and branding */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .terminal-icon {
+            width: 64px;
+            height: 64px;
+            fill: var(--text);
+            filter: drop-shadow(0 0 10px var(--glow));
+        }
+
+        .brand-name {
+            font-size: 4rem;
+            font-weight: 400;
+            color: var(--text);
+            text-shadow: 0 0 20px var(--glow);
+            letter-spacing: 0.1em;
+        }
+
+        /* Coming soon section */
+        .coming-soon {
+            margin-bottom: 40px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        .coming-soon h2 {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 20px;
+            text-shadow: 0 0 15px var(--glow);
+        }
+
+        .tagline {
+            font-size: 1.5rem;
+            color: var(--text);
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        /* Description section */
+        .description {
+            max-width: 800px;
+            margin-bottom: 50px;
+            animation: fadeIn 2s ease-out;
+        }
+
+        .description p {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+
+        /* Features list */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+            animation: fadeIn 2.5s ease-out;
+        }
+
+        .feature {
+            padding: 20px;
+            border: 2px solid var(--text);
+            border-radius: 8px;
+            background: rgba(255, 140, 0, 0.05);
+            box-shadow: 0 0 15px rgba(255, 69, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .feature:hover {
+            box-shadow: 0 0 25px rgba(255, 69, 0, 0.5);
+            transform: translateY(-5px);
+        }
+
+        .feature h3 {
+            font-size: 1.5rem;
+            color: var(--text);
+            margin-bottom: 10px;
+            text-shadow: 0 0 8px var(--glow);
+        }
+
+        .feature p {
+            font-size: 1.1rem;
+            color: var(--accent);
+            line-height: 1.4;
+        }
+
+        /* Terminal boot sequence */
+        .boot-sequence {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid var(--text);
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 0 20px rgba(255, 69, 0, 0.4);
+            animation: fadeIn 3s ease-out;
+        }
+
+        .boot-line {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        .boot-line.active {
+            opacity: 1;
+        }
+
+        .cursor {
+            display: inline-block;
+            background: var(--text);
+            width: 10px;
+            height: 20px;
+            margin-left: 5px;
+            animation: blink 1s step-end infinite;
+        }
+
+        /* Contact section */
+        .contact {
+            animation: fadeIn 3.5s ease-out;
+        }
+
+        .contact h3 {
+            font-size: 1.8rem;
+            color: var(--text);
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px var(--glow);
+        }
+
+        .contact p {
+            font-size: 1.2rem;
+            color: var(--accent);
+            margin-bottom: 15px;
+        }
+
+        .contact a {
+            color: var(--text);
+            text-decoration: none;
+            text-shadow: 0 0 8px var(--glow);
+            transition: all 0.3s ease;
+        }
+
+        .contact a:hover {
+            color: var(--accent);
+            text-shadow: 0 0 15px var(--glow);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .crt::before {
+                background-size: 100% 2px;
+            }
+
+            .brand-name {
+                font-size: 2.5rem;
+            }
+
+            .coming-soon h2 {
+                font-size: 2rem;
+            }
+
+            .tagline {
+                font-size: 1.2rem;
+            }
+
+            .description p {
+                font-size: 1.1rem;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .terminal-icon {
+                width: 48px;
+                height: 48px;
+            }
+
+            .boot-sequence {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .brand-name {
+                font-size: 2rem;
+            }
+
+            .coming-soon h2 {
+                font-size: 1.5rem;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+        }
+
+        /* High contrast mode adjustments */
+        @media (prefers-contrast: high) {
+            .crt::before {
+                opacity: calc(var(--scanline-opacity) * 0.5);
+            }
+
+            .crt::after {
+                opacity: calc(var(--flicker-enabled) * 0.1);
+            }
+        }
+
+        /* Reduced motion preferences */
+        @media (prefers-reduced-motion: reduce) {
+            .crt::after,
+            .animate-blink,
+            .animate-pulse {
+                animation: none !important;
+            }
+
+            .feature {
+                transition: none;
+            }
+
+            .feature:hover {
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="crt">
+        <div class="container">
+            <main class="main-content">
+                <!-- Logo and Branding -->
+                <div class="logo-container">
+                    <svg class="terminal-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M2 3h20v18H2V3zm2 2v14h16V5H4zm2 2h12v2H6V7zm0 4h12v2H6v-2zm0 4h8v2H6v-2z"/>
+                    </svg>
+                    <h1 class="brand-name terminal-text">Crow-AI</h1>
+                </div>
+
+                <!-- Coming Soon Section -->
+                <div class="coming-soon">
+                    <h2 class="terminal-text">LAUNCHING SOON</h2>
+                    <p class="tagline">Community Forum with AI</p>
+                </div>
+
+                <!-- Description -->
+                <div class="description">
+                    <p>Experience the future of online communities with <strong>Crow-AI</strong> - where retro terminal aesthetics meet cutting-edge artificial intelligence.</p>
+                    <p>Join a revolutionary platform that combines the nostalgia of classic computing with modern AI-powered discussions and community features.</p>
+                </div>
+
+                <!-- Features Grid -->
+                <div class="features">
+                    <div class="feature">
+                        <h3>🤖 AI Chat Integration</h3>
+                        <p>Engage with advanced AI assistants directly within forum discussions for enhanced conversations and instant help.</p>
+                    </div>
+                    <div class="feature">
+                        <h3>💬 Community Forums</h3>
+                        <p>Connect with like-minded individuals in themed discussion boards with real-time messaging and notifications.</p>
+                    </div>
+                    <div class="feature">
+                        <h3>🖥️ Retro Terminal UI</h3>
+                        <p>Immerse yourself in authentic CRT monitor aesthetics with scanlines, phosphor glow, and classic terminal fonts.</p>
+                    </div>
+                    <div class="feature">
+                        <h3>⚡ Real-time Features</h3>
+                        <p>Enjoy instant messaging, live chat rooms, and real-time notifications in a seamless user experience.</p>
+                    </div>
+                </div>
+
+                <!-- Terminal Boot Sequence -->
+                <div class="boot-sequence">
+                    <div class="boot-line" id="boot-1">INITIALIZING CROW-AI SYSTEMS...</div>
+                    <div class="boot-line" id="boot-2">LOADING COMMUNITY PROTOCOLS...</div>
+                    <div class="boot-line" id="boot-3">ESTABLISHING AI NEURAL NETWORKS...</div>
+                    <div class="boot-line" id="boot-4">CALIBRATING CRT DISPLAY...</div>
+                    <div class="boot-line" id="boot-5">SYSTEM STATUS: READY FOR LAUNCH</div>
+                    <div class="boot-line" id="boot-6">AWAITING DEPLOYMENT TO CROW-AI.NET<span class="cursor"></span></div>
+                </div>
+
+                <!-- Contact Information -->
+                <div class="contact">
+                    <h3>Stay Connected</h3>
+                    <p>Be the first to know when Crow-AI launches!</p>
+                    <p>Visit us at: <a href="https://crow-ai.net" target="_blank" rel="noopener">crow-ai.net</a></p>
+                    <p class="animate-pulse">🚀 Coming Soon to the Web 🚀</p>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Boot sequence animation
+        function startBootSequence() {
+            const bootLines = document.querySelectorAll('.boot-line');
+            const delays = [500, 1000, 1500, 2000, 2500, 3000];
+
+            bootLines.forEach((line, index) => {
+                setTimeout(() => {
+                    line.classList.add('active');
+                    line.style.animationDelay = `${index * 0.1}s`;
+                }, delays[index] || 0);
+            });
+        }
+
+        // Enhanced CRT effects
+        function initializeCRTEffects() {
+            const crt = document.querySelector('.crt');
+
+            // Add subtle flicker effect on mouse movement
+            let flickerTimeout;
+            document.addEventListener('mousemove', () => {
+                crt.style.setProperty('--flicker-enabled', '1');
+                clearTimeout(flickerTimeout);
+                flickerTimeout = setTimeout(() => {
+                    crt.style.setProperty('--flicker-enabled', '0');
+                }, 100);
+            });
+
+            // Enhance glow effects on hover
+            const glowElements = document.querySelectorAll('.terminal-text, .text-glow');
+            glowElements.forEach(element => {
+                element.addEventListener('mouseenter', () => {
+                    element.style.textShadow = '0 0 20px var(--glow), 0 0 30px var(--glow)';
+                });
+                element.addEventListener('mouseleave', () => {
+                    element.style.textShadow = '0 0 10px var(--glow)';
+                });
+            });
+        }
+
+        // Typewriter effect for dynamic text
+        function typewriterEffect(element, text, speed = 50) {
+            element.textContent = '';
+            let i = 0;
+            const timer = setInterval(() => {
+                if (i < text.length) {
+                    element.textContent += text.charAt(i);
+                    i++;
+                } else {
+                    clearInterval(timer);
+                }
+            }, speed);
+        }
+
+        // Random terminal messages
+        const terminalMessages = [
+            "CROW-AI NEURAL NETWORKS ONLINE",
+            "COMMUNITY PROTOCOLS ESTABLISHED",
+            "AI CHAT SYSTEMS OPERATIONAL",
+            "RETRO TERMINAL INTERFACE LOADED",
+            "PREPARING FOR GLOBAL DEPLOYMENT"
+        ];
+
+        function showRandomMessage() {
+            const messageElement = document.createElement('div');
+            messageElement.className = 'boot-line active';
+            messageElement.style.position = 'fixed';
+            messageElement.style.top = '20px';
+            messageElement.style.right = '20px';
+            messageElement.style.background = 'rgba(0, 0, 0, 0.8)';
+            messageElement.style.padding = '10px 15px';
+            messageElement.style.border = '1px solid var(--text)';
+            messageElement.style.borderRadius = '4px';
+            messageElement.style.fontSize = '0.9rem';
+            messageElement.style.zIndex = '1000';
+            messageElement.style.opacity = '0';
+            messageElement.style.transition = 'opacity 0.3s ease';
+
+            const randomMessage = terminalMessages[Math.floor(Math.random() * terminalMessages.length)];
+            messageElement.textContent = randomMessage;
+
+            document.body.appendChild(messageElement);
+
+            setTimeout(() => {
+                messageElement.style.opacity = '1';
+            }, 100);
+
+            setTimeout(() => {
+                messageElement.style.opacity = '0';
+                setTimeout(() => {
+                    document.body.removeChild(messageElement);
+                }, 300);
+            }, 3000);
+        }
+
+        // Keyboard shortcuts for easter eggs
+        let konamiCode = [];
+        const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'];
+
+        document.addEventListener('keydown', (e) => {
+            konamiCode.push(e.code);
+            if (konamiCode.length > konamiSequence.length) {
+                konamiCode.shift();
+            }
+
+            if (JSON.stringify(konamiCode) === JSON.stringify(konamiSequence)) {
+                // Easter egg: Enhanced CRT effects
+                const crt = document.querySelector('.crt');
+                crt.style.setProperty('--flicker-enabled', '1');
+                crt.style.setProperty('--crt-opacity', '0.3');
+                crt.style.setProperty('--scanline-opacity', '0.5');
+
+                showRandomMessage();
+
+                setTimeout(() => {
+                    crt.style.setProperty('--flicker-enabled', '0');
+                    crt.style.setProperty('--crt-opacity', '0.1');
+                    crt.style.setProperty('--scanline-opacity', '0.25');
+                }, 5000);
+
+                konamiCode = [];
+            }
+        });
+
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            startBootSequence();
+            initializeCRTEffects();
+
+            // Show random messages periodically
+            setInterval(showRandomMessage, 30000);
+
+            // Add some dynamic behavior to features
+            const features = document.querySelectorAll('.feature');
+            features.forEach((feature, index) => {
+                feature.style.animationDelay = `${3 + index * 0.2}s`;
+                feature.style.animation = 'fadeIn 0.8s ease-out forwards';
+                feature.style.opacity = '0';
+            });
+        });
+
+        // Performance optimization: Reduce animations on low-end devices
+        if (navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4) {
+            document.documentElement.style.setProperty('--flicker-enabled', '0');
+        }
+
+        // Add some interactivity to the cursor
+        const cursor = document.querySelector('.cursor');
+        if (cursor) {
+            setInterval(() => {
+                cursor.style.opacity = cursor.style.opacity === '0' ? '1' : '0';
+            }, 500);
+        }
+    </script>
+</body>
+</html>
